@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="phv.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PHV</title>
+    <script src="phv.js"></script>
+  </head>
+  <body>
+    <div>
+      <div class="title"">Phrasal verbs</div>
+      <iframe id="frmFile" src="phv.json" onload="loadJSON('phv.json');" style="display: none;"></iframe>
+      <image src="books.png" class="back"></image>
+      <div class="text" id="question"></div>
+      <br>
+      <div>
+        <select id="selector" class="select tcenter" onchange="verb_chosen(this.value)">
+        </select>
+      </div>
+      <br>
+      <button class="button" onclick="verify()">Verify</button>
+      <image id="state" class="state"/>
+    </div>
+  </body>
+</html>
+
