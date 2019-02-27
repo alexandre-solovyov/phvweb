@@ -3,12 +3,15 @@ var correct_answer = ''
 
 function loadJSON() {
     var request = new XMLHttpRequest();
-    request.open('GET', 'phv.json', true);
-    request.send(null);
+    request.open('GET', 'new_ex', true);
+    request.send();
     request.onreadystatechange = function () {
+        //alert(request.readyState)
+        //alert(request.status)
         if (request.readyState === 4 && request.status === 200) {
-            var type = request.getResponseHeader('Content-Type');
-            if (type.indexOf("text") !== 1) {
+            var type = request.getResponseHeader('Content-type');
+            //alert(type)
+            if (type.indexOf("json") !== 1) {
                 parseData(request.responseText);
             }
         }
@@ -16,6 +19,7 @@ function loadJSON() {
 }
 
 function parseData(data) {
+    //alert(data)
     var obj = JSON.parse(data)
     var txt = obj.question
     txt = txt.replace("...", "<span id='answer' class='emph'>...</span>")
@@ -27,7 +31,7 @@ function parseData(data) {
         sel.removeChild(sel.firstChild);
     }
 
-    obj.variants.unshift(correct_answer)
+    //obj.variants.unshift(correct_answer)
     obj.variants.unshift("")
 
     obj.variants.forEach(element => {

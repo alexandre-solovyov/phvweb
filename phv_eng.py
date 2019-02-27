@@ -1,5 +1,6 @@
 
 import random
+import json
 
 NONE = 0
 VERBS = 1
@@ -115,6 +116,13 @@ class Model:
             i = random.randint(0, len(vars))
             del vars[i]
         return e, vars
+
+    def jsonify(self, e, vars):
+        data = {}
+        data["question"] = e.question
+        data["answer"] = e.answer
+        data["variants"] = vars
+        return json.dumps(data)
 
     def findSimilar(self, verb, withItSelf=False):
         vv = None

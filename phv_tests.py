@@ -57,6 +57,10 @@ class TestParse(unittest.TestCase):
         self.assertEqual(e.answer, "given up")
         self.assertEqual(self.model.findSimilar(e.answer), ['given out', 'taken up'])
 
+    def test_jsonify(self):
+        e, vars = self.model.randomExVars(4)
+        s = self.model.jsonify(e, vars)
+        self.assertEqual(s, "")
 
 
 if __name__ == '__main__':
