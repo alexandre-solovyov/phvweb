@@ -7,21 +7,24 @@
     <title>PHV</title>
     <script src="phv.js"></script>
   </head>
-  <body>
-    <div>
-      <div class="title"">Phrasal verbs</div>
-      <iframe id="frmFile" src="phv.json" onload="loadJSON('phv.json');" style="display: none;"></iframe>
-      <image src="books.png" class="back"></image>
-      <div class="text" id="question"></div>
-      <br>
-      <div>
-        <select id="selector" class="select tcenter" onchange="verb_chosen(this.value)">
-        </select>
-      </div>
-      <br>
-      <button class="button" onclick="verify()">Verify</button>
-      <image id="state" class="state"/>
+  <body style="margin: 0px;">
+    <iframe id="frmFile" onload="loadJSON();" style="display: none;"></iframe>
+    <div style="height: 30px;"></div>
+    <div class="title">
+        <span class="icon">PhV</span>
+        <span class="header">Welcome to Phrasal Verbs</span>
     </div>
+    <br>
+    <div class="question" id="question"></div>
+    <br>
+    <div>
+        <select id="selector" class="select" onchange="verb_chosen(this.value)">
+        </select>
+    </div>
+    <br>
+    <button class="button" onclick="verify()">Verify</button>
+    <button class="button" onclick="newex()">New</button>
+    <image id="state" class="state"/>
   </body>
 </html>
 

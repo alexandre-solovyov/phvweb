@@ -1,9 +1,9 @@
 
 var correct_answer = ''
 
-function loadJSON(file) {
+function loadJSON() {
     var request = new XMLHttpRequest();
-    request.open('GET', file, true);
+    request.open('GET', 'phv.json', true);
     request.send(null);
     request.onreadystatechange = function () {
         if (request.readyState === 4 && request.status === 200) {
@@ -31,9 +31,9 @@ function parseData(data) {
     obj.variants.unshift("")
 
     obj.variants.forEach(element => {
-        //console.log(element)
+        console.log(element)
         var opt = document.createElement('option');
-        opt.innerText = element
+        opt.innerText = element;
         sel.appendChild(opt)
     });
 }
@@ -52,3 +52,8 @@ function verify() {
         img.src = "fail.png"
 }
 
+function newex() {
+    var img = document.getElementById("state")
+    img.src = ""
+    loadJSON("")
+}
