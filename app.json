@@ -1,0 +1,17 @@
+{
+  "name": "PHV",
+  "description": "A Phrasal Verbs application",
+  "image": "heroku/python",
+  "repository": "https://github.com/alexandre-solovyov/phvweb.git",
+  "keywords": ["python" ],
+  "addons": [ ],
+  "env": {
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+          "test": "python phv_tests.py"
+      }
+    }
+  }
+}

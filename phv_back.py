@@ -2,10 +2,11 @@
 import time
 import http.server
 import json
+import os
 from phv_eng import *
 
-HOST_NAME = 'localhost' # !!!REMEMBER TO CHANGE THIS!!!
-PORT_NUMBER = 8080 # Maybe set this to 9000.
+HOST_NAME = '' # !!!REMEMBER TO CHANGE THIS!!!
+PORT_NUMBER = int(os.environ['PORT'])   #8080 # Maybe set this to 9000.
 
 class MyHandler(http.server.SimpleHTTPRequestHandler):
     def do_HEAD(self):
