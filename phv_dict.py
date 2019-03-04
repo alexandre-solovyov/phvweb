@@ -29,8 +29,11 @@ class Parser:
 			return False
 		
 		lines = f.readlines()
+		isOK = True
 		for line in lines:
-			self.parseLine(line)
+			if not self.parseLine(line):
+				isOK = False
+		return isOK
 		
 	def parseLine(self, text):
 		
@@ -42,10 +45,13 @@ class Parser:
 		self.verb = m.group()
 		text = re.sub(VERB_P, "", text)
 		groups = re.split("\d+\)", text)
+		isOK = True
 		for g in groups:
 			g = g.strip()
 			if len(g)>0:
-				self.parseGroup(g.strip())
+				if not self.parseGroup(g.strip()):
+					isOK = False
+		return isOK
 		
 	def parseGroup(self, group):
 		group = re.sub("\[[\w\s\(\)/\-\,]*\]", "", group)
@@ -61,6 +67,7 @@ class Parser:
 		s = map(lambda x: removeNotEng(x.strip() + "."), s)
 		s = filter(lambda x: len(x)>1, s)
 		self.sentences = self.sentences + list(s)
+		return True
 		
 
 	def __str__(self):
@@ -69,37 +76,37 @@ class Parser:
 		s = s + self.sentences
 		return "\n  ".join(s)
 	
-	
-p = Parser('verbs/break_down')
-p.perform()
-assert len(p.sentences)==19
+if __name__ == '__main__':
+	p = Parser('verbs/break_down')
+	p.perform()
+	assert len(p.sentences)==19
 
-p = Parser('verbs/calm_down')
-p.perform()
-assert len(p.sentences)==7
+	p = Parser('verbs/calm_down')
+	p.perform()
+	assert len(p.sentences)==7
 
-p = Parser('verbs/come_down')
-p.perform()
-assert len(p.sentences)==24
+	p = Parser('verbs/come_down')
+	p.perform()
+	assert len(p.sentences)==24
 
-p = Parser('verbs/give_out')
-p.perform()
-assert len(p.sentences)==10
+	p = Parser('verbs/give_out')
+	p.perform()
+	assert len(p.sentences)==10
 
-p = Parser('verbs/give_up')
-p.perform()
-assert len(p.sentences)==12
+	p = Parser('verbs/give_up')
+	p.perform()
+	assert len(p.sentences)==12
 
-p = Parser('verbs/take_out')
-p.perform()
-assert len(p.sentences)==10
+	p = Parser('verbs/take_out')
+	p.perform()
+	assert len(p.sentences)==10
 
-p = Parser('verbs/take_up')
-p.perform()
-assert len(p.sentences)==24
+	p = Parser('verbs/take_up')
+	p.perform()
+	assert len(p.sentences)==24
 
-p = Parser('verbs/write_down')
-p.perform()
-assert len(p.sentences)==3
+	p = Parser('verbs/write_down')
+	p.perform()
+	assert len(p.sentences)==3
 
-print(p)
+	print(p)

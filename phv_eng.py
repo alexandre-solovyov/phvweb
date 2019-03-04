@@ -14,6 +14,40 @@ FORMS = ["Inf", "Pr", "PrPart", "P1", "P2"]
 NB_FORMS = len(FORMS)
 POINTS = "..."
 
+def check(line, start, length):
+    if start>=0:
+        s = line[start+length]
+        if not str.isalpha(s):
+            return True
+    return False
+
+def special_find(line, subs):
+    start = line.find(subs)
+    #print (line, subs, start)
+    if check(line, start, len(subs)):
+        return [(start, len(subs))]
+    else:
+        parts = subs.split(' ')
+        res = []
+        i = 0
+        for p in parts:
+            start = line.find(p, i)
+            if check(line, start, len(p)):
+                res.append((start, len(p)))
+                i = start+len(p)
+            else:
+                return None
+            
+        return res
+        
+def special_replace(line, indices, placeh):
+    #print(line, indices)
+    for i in indices[::-1]:
+        start, length = i
+        line = line[:start] + placeh + line[start+length:]
+    #print (line)
+    return line
+
 class Exercise:
     def __init__(self):
         self.question = ""
@@ -42,7 +76,7 @@ class Model:
                 return False
             for line in f:
                 self.parse(line)
-        except:
+        except FileNotFoundError:
             ok = False
 
         if f:
@@ -84,10 +118,10 @@ class Model:
     def parsePhrase(self, line):
         for pv, forms in self.__verbs.items():
             for f in forms:
-                p = line.find(f)
-                if p>=0:
+                p = special_find(line, f)
+                if not p is None:
                     e = Exercise()
-                    e.question = line.replace(f, POINTS)
+                    e.question = special_replace(line, p, POINTS)
                     e.answer = f
                     return e
         return None

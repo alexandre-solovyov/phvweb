@@ -40,10 +40,25 @@ class TestParse(unittest.TestCase):
         m = Model()
         m.parse(VERBS_LINE)
         m.parse("give gives giving gave given         up out")
+        
         m.parse(TEXT_LINE)
         e = m.parsePhrase("If you give up something, you stop doing it or having it.")
         self.assertEqual(e.question, "If you ... something, you stop doing it or having it.")
         self.assertEqual(e.answer, "give up")
+
+        e = m.parsePhrase("Coastguards had given up all hope of finding the two divers alive.")
+        self.assertEqual(e.question, "Coastguards had ... all hope of finding the two divers alive.")
+        self.assertEqual(e.answer, "given up")
+
+        
+    def test_parse_separable(self):
+        m = Model()
+        m.parse(VERBS_LINE)
+        m.parse("write writes writing wrote written   down")
+        m.parse(TEXT_LINE)
+        e = m.parsePhrase("When you write something down, you record it on a piece of paper using a pen or pencil.")
+        self.assertEqual(e.question, "When you ... something ..., you record it on a piece of paper using a pen or pencil.")
+        self.assertEqual(e.answer, "write down")
 
     def test_unexisting_file(self):
         self.assertEqual(Model().load("some"), False)
@@ -60,7 +75,7 @@ class TestParse(unittest.TestCase):
     def test_jsonify(self):
         e, vars = self.model.randomExVars(4)
         s = self.model.jsonify(e, vars)
-        self.assertEqual(s, "")
+        self.assertEqual(s, '{"question": "After a fruitless morning sitting at his desk he had ....", "answer": "given up", "variants": ["taken up", "given up", "given out"]}')
 
 
 if __name__ == '__main__':
