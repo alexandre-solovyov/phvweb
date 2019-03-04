@@ -21,7 +21,8 @@ def check(line, start, length):
             return True
     return False
 
-def special_find(line, subs):
+def special_find(input_line, subs):
+    line = input_line.lower()
     start = line.find(subs)
     #print (line, subs, start)
     if check(line, start, len(subs)):
@@ -52,6 +53,11 @@ class Exercise:
     def __init__(self):
         self.question = ""
         self.answer = ""
+        
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return self.question == other.question and self.answer == other.answer
 
 class Model:
     def __init__(self, r=None):
@@ -115,7 +121,8 @@ class Model:
                 self.__exercises.append(e)
                 #print(e.question, len(self.__exercises))
 
-    def parsePhrase(self, line):
+    def parsePhrase(self, line, isMultiple=False):
+        res = [] if isMultiple else None
         for pv, forms in self.__verbs.items():
             for f in forms:
                 p = special_find(line, f)
@@ -124,8 +131,12 @@ class Model:
                     e.question = special_replace(line, p, POINTS)
                     e.question = e.question.replace(POINTS+".", POINTS)
                     e.answer = f
-                    return e
-        return None
+                    if isMultiple:
+                        if not e in res:
+                            res.append(e)
+                    else:
+                        return e
+        return res
 
     def simplify(self, line):
         p = line.find(COMMENT)

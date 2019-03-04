@@ -1,17 +1,7 @@
 
 import glob
 import logging
-from phv_dict import Parser
-
-#            present   present_part   part_I   part_II
-FORMS = {
-	"break": ["breaks", "breaking", "broke", "broken"],
-	"calm":  ["calms", "calming", "calmed", "calmed"],
-	"come":  ["comes", "coming", "came", "come"],
-	"give":  ["gives", "giving", "gave", "given"],
-	"take":  ["takes", "taking", "took", "taken"],
-	"write":  ["writes", "writing", "wrote", "written"],
-}
+from phv_dict import Parser, FORMS
 
 class DB:
 	def __init__(self):

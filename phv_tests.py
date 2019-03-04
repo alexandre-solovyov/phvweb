@@ -50,7 +50,6 @@ class TestParse(unittest.TestCase):
         self.assertEqual(e.question, "Coastguards had ... all hope of finding the two divers alive.")
         self.assertEqual(e.answer, "given up")
 
-        
     def test_parse_separable(self):
         m = Model()
         m.parse(VERBS_LINE)
@@ -61,7 +60,6 @@ class TestParse(unittest.TestCase):
         self.assertEqual(e.answer, "write down")
 
     def test_parse_at_ending(self):
-    
         m = Model()
         m.parse(VERBS_LINE)
         m.parse("break breaks breaking broke broken   down")
@@ -69,6 +67,21 @@ class TestParse(unittest.TestCase):
         e = m.parsePhrase("Their car broke down.")
         self.assertEqual(e.question, "Their car ...")
         self.assertEqual(e.answer, "broke down")
+
+    def test_parse_multiple(self):
+        m = Model()
+        m.parse(VERBS_LINE)
+        m.parse("cheer cheers cheering cheered cheered   up")
+        m.parse(TEXT_LINE)
+        
+        e = m.parsePhrase("When you cheer up or when something cheers you up, you stop feeling depressed and become more cheerful.")
+        self.assertEqual(e.question, "When you ... or when something cheers you up, you stop feeling depressed and become more cheerful.")
+        self.assertEqual(e.answer, "cheer up")
+        
+        e = m.parsePhrase("Cheer up, better times may be ahead.")
+        self.assertEqual(e.question, "..., better times may be ahead.")
+        self.assertEqual(e.answer, "cheer up")
+
 
     def test_unexisting_file(self):
         self.assertEqual(Model().load("some"), False)
@@ -87,6 +100,17 @@ class TestParse(unittest.TestCase):
         s = self.model.jsonify(e, vars)
         self.assertEqual(s, '{"question": "After a fruitless morning sitting at his desk he had ...", "answer": "given up", "variants": ["given up", "taken up", "given out"]}')
 
+    def test_equality(self):
+        e1 = Exercise()
+        e1.question = "test1"
+        e1.answer = "test2"
+        e2 = Exercise()
+        e2.question = "test1"
+        e2.answer = "test3"
+        lst = [e1]
+        self.assertEqual(True, e1 in lst)
+        self.assertEqual(False, e2 in lst)
+        self.assertEqual(False, None in lst)
 
 if __name__ == '__main__':
     unittest.main()

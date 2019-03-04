@@ -93,7 +93,7 @@ function verify() {
     
     var img = document.getElementById("state")
         
-    if( answer===correct_answer)
+    if( answer.toLowerCase()===correct_answer.toLowerCase())
         img.src = "ok.png"
     else
         img.src = "fail.png"
