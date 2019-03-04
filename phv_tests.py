@@ -60,6 +60,16 @@ class TestParse(unittest.TestCase):
         self.assertEqual(e.question, "When you ... something ..., you record it on a piece of paper using a pen or pencil.")
         self.assertEqual(e.answer, "write down")
 
+    def test_parse_at_ending(self):
+    
+        m = Model()
+        m.parse(VERBS_LINE)
+        m.parse("break breaks breaking broke broken   down")
+        m.parse(TEXT_LINE)
+        e = m.parsePhrase("Their car broke down.")
+        self.assertEqual(e.question, "Their car ...")
+        self.assertEqual(e.answer, "broke down")
+
     def test_unexisting_file(self):
         self.assertEqual(Model().load("some"), False)
 
@@ -68,14 +78,14 @@ class TestParse(unittest.TestCase):
 
     def test_randomEx(self):
         e = self.model.randomEx()
-        self.assertEqual(e.question, "After a fruitless morning sitting at his desk he had ....")
+        self.assertEqual(e.question, "After a fruitless morning sitting at his desk he had ...")
         self.assertEqual(e.answer, "given up")
         self.assertEqual(self.model.findSimilar(e.answer), ['given out', 'taken up'])
 
     def test_jsonify(self):
         e, vars = self.model.randomExVars(4)
         s = self.model.jsonify(e, vars)
-        self.assertEqual(s, '{"question": "After a fruitless morning sitting at his desk he had ....", "answer": "given up", "variants": ["taken up", "given up", "given out"]}')
+        self.assertEqual(s, '{"question": "After a fruitless morning sitting at his desk he had ...", "answer": "given up", "variants": ["given up", "taken up", "given out"]}')
 
 
 if __name__ == '__main__':

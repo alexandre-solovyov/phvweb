@@ -41,7 +41,6 @@ function parseData(data) {
     var txt = obj.question
     
     var inds = indices(txt)
-    console.log("test")
     inds.reverse()
     var j = inds.length
     inds.forEach (function(i){
@@ -62,7 +61,7 @@ function parseData(data) {
     obj.variants.unshift("")
 
     obj.variants.forEach(element => {
-        console.log(element)
+        //console.log(element)
         var opt = document.createElement('option');
         opt.innerText = element;
         sel.appendChild(opt)
@@ -70,11 +69,28 @@ function parseData(data) {
 }
 
 function verb_chosen(value) {
-    document.getElementById("answer").innerText = value
+    a1 = document.getElementById("answer1")
+    a2 = document.getElementById("answer2")
+    if (a2=== null) {
+        a1.innerText = value
+    }
+    else {
+        values = value.split(" ")
+        if (values.length==2)
+        {
+            a1.innerText = values[0]
+            a2.innerText = values[1]
+        }
+    }
 }
 
 function verify() {
-    var answer = document.getElementById("answer").innerText
+    var a1 = document.getElementById("answer1")
+    var a2 = document.getElementById("answer2")
+    var answer = a1.innerText
+    if( a2!==null )
+      answer = answer + " " + a2.innerText
+    
     var img = document.getElementById("state")
         
     if( answer===correct_answer)

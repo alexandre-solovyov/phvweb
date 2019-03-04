@@ -122,6 +122,7 @@ class Model:
                 if not p is None:
                     e = Exercise()
                     e.question = special_replace(line, p, POINTS)
+                    e.question = e.question.replace(POINTS+".", POINTS)
                     e.answer = f
                     return e
         return None
@@ -139,16 +140,18 @@ class Model:
         return lst
 
     def randomEx(self):
-        i = random.randint(0, len(self.__exercises))
+        i = random.randint(0, len(self.__exercises)-1)
         return self.__exercises[i]
 
     def randomExVars(self, nbVariants):
         e = self.randomEx()
-        vars = self.findSimilar(e.answer, True)
+        vars = self.findSimilar(e.answer, False)
         random.shuffle(vars)
-        while len(vars) > nbVariants:
-            i = random.randint(0, len(vars))
+        while len(vars) > nbVariants-1:
+            i = random.randint(0, len(vars)-1)
             del vars[i]
+        vars.append(e.answer)
+        random.shuffle(vars)
         return e, vars
 
     def jsonify(self, e, vars):
