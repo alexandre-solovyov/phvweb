@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href="phv.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PHV</title>
+    <link href="phv.css" rel="stylesheet">
     <script src="phv.js"></script>
   </head>
-  <body style="margin: 0px;">
-    <iframe id="frmFile" onload="loadJSON();" style="display: none;"></iframe>
+  
+  <body onload="loadJSON();" style="margin: 0px;">
     <div style="height: 30px;"></div>
     <div class="title">
         <span class="icon">PhV</span>
@@ -18,13 +18,12 @@
     <div class="question" id="question"></div>
     <br>
     <div>
-        <select id="selector" class="select" onchange="verb_chosen(this.value)">
-        </select>
+        <select id="selector" class="select" onchange="verb_chosen(value)"></select>
     </div>
     <br>
     <button class="button" onclick="verify()">Verify</button>
     <button class="button" onclick="newex()">New</button>
     <image id="state" class="state"/>
   </body>
+  
 </html>
-
