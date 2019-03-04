@@ -18,11 +18,38 @@ function loadJSON() {
     }
 }
 
+function indices(txt) {
+    //console.log(txt)
+    var res = []
+    var i = 0
+    while (i>=0) {
+      var ind = txt.indexOf("...", i)
+      if (ind>=0)
+      {
+        res.push(ind)
+        i = ind+1
+      }
+      else
+        i = -1
+    }
+    return res
+}
+
 function parseData(data) {
     //alert(data)
     var obj = JSON.parse(data)
     var txt = obj.question
-    txt = txt.replace("...", "<span id='answer' class='emph'>...</span>")
+    
+    var inds = indices(txt)
+    console.log("test")
+    inds.reverse()
+    var j = inds.length
+    inds.forEach (function(i){
+        //console.log(i)
+        var placeh = `<span id='answer${j}' class='emph'>...</span>`
+        txt = txt.substr(0, i) + placeh + txt.substr(i+3)
+        j = j - 1
+    })
     document.getElementById("question").innerHTML = txt
 
     correct_answer = obj.answer

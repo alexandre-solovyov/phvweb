@@ -33,6 +33,9 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
             print ("Model is loaded")
 
         e, vars = self.model.randomExVars(4)
+        e.question = "When you ... something ..., you record it on a piece of paper using a pen or pencil."
+        e.answer = "write down"
+        vars.append("write down")
         json_string = self.model.jsonify(e, vars)
         print(json_string)
 
