@@ -5,118 +5,29 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PHV info</title>
+    <link href="phv.css" rel="stylesheet">
+    <script src="phv_info.js"></script>
   </head>
   
-  <body style="margin: 0px;">
-
-    <style>
-        .main {
-            position: absolute;
-            color: white;
-            background-color: #01579B;
-            outline: none
-        }
-        .main:hover {
-            background-color: #01377B;
-        }
-        .part {
-            position: absolute;
-            color: white;
-            background-color: #0277BD;
-            outline: none
-        }
-        .part:hover {
-            background-color: #01377B;
-        }
-    </style>
+  <body onload="loadJSON();" style="margin: 0px;">
            
+    <div style="height: 30px;"></div>
+    <div class="title">
+        <span class="icon">PhV</span>
+        <span class="header">Welcome to Phrasal Verbs</span>
+        <a class="info" href="index.html">&#9668; Exercises</a>
+    </div>
+    <br>
+    
     <button id="main" class="main"></button>
-         
-    <script>
-        function circ(elem, x0, y0, r, bord, fsize)
-        {
-            elem.style.left = Math.round(x0-r) + "px"
-            elem.style.top = Math.round(y0-r) + "px"
-            elem.style.width = Math.round(2*r) + "px"
-            elem.style.height = Math.round(2 * r) + "px"
-            elem.style.border = bord + "px solid white"
-            elem.style.borderRadius = Math.round(r) + "px"
-            elem.style.font = fsize + "pt Times"
-        }
-        
-        function createPrs(verb, parts)
-        {
-            var main = document.getElementById("main");
-            main.innerText = verb
+    
+    <ul id="define">
+        <li>If you give out a number of things, you distribute them among a group of people.</li>
+        <li>If you give out information, you make it known to people.</li>
+        <li>If a piece of equipment or part of the body gives out, it stops working.</li>
+        <li>If you give out something such as a scream or a sigh, you sigh, scream, or make some other sound.</li>
+    </ul>
 
-            var n = parts.length
-            for (var i = 0; i < n; i++) {
-                var b = document.createElement("button");
-                b.id = "part" + (i + 1)
-                b.index = i
-                b.nbItems = n
-                b.classList.add("part")
-                b.innerText = parts[i]
-                b.onclick = function () { onSelect(this.index, this.nbItems, this.innerText) }
-                document.body.appendChild(b)
-            }
-        }
-
-        var current_shift = 0
-        var current_delta = 0
-        function locate(n, shift)
-        {
-            var x0 = 200, y0 = 200, r1 = 150, r2 = 50
-            var main = document.getElementById("main");
-            circ(main, x0, y0, r1, 0, 60)
-            
-            var d = 2.0 * Math.PI / n
-            current_delta = d
-        
-            for (var i = 0; i < n; i++)
-            {
-                var b = document.getElementById("part" + (i + 1));
-                var a = d * i + shift
-                circ(b, x0 + r1 * Math.cos(a), y0 + r1 * Math.sin(a), r2, 8, 20)
-            }
-
-            current_shift = shift
-        }
-
-        function animate(draw, duration) {
-            var start = performance.now();
-            requestAnimationFrame(function animate(time) {
-                var timePassed = time - start;
-                if (timePassed > duration) timePassed = duration;
-                draw(timePassed);
-                if (timePassed < duration) {
-                    requestAnimationFrame(animate);
-                }
-            });
-        }
-
-        function onSelect(index, n, part) {
-            //console.log(index + " " + part)
-
-            var time = 500
-            var main = document.getElementById("main");
-            var start_shift = current_shift
-            var new_shift = -current_delta * index
-            //locate(n, new_shift)
-            var step = (new_shift - start_shift) / time
-            animate(function (timePassed) {
-                var shift = start_shift + step * timePassed
-                //console.log(shift)
-                locate(n, shift)
-            }, time);
-        }
-
-        var verb = "GET"
-        var parts = ["at", "away", "on", "up", "off"]
-        createPrs(verb, parts)
-        locate(parts.length, 0)
-        
-    </script>
   </body>
   
 </html>
