@@ -20,7 +20,7 @@ POINTS = "..."
 def check(line, start, length):
     if start>=0:
         s = line[start+length]
-        if not str.isalpha(s):
+        if (start==0 or not str.isalpha(line[start-1])) and (not str.isalpha(s)):
             return True
     return False
 
@@ -74,6 +74,7 @@ class Model:
         self.__mode = NONE
         self.__verbs = {}
         self.__exercises = []
+        self.__defs = {}
         if r:
             random.seed(int(r))
 
@@ -84,6 +85,10 @@ class Model:
     """Get number of exercises"""
     def nbExercises(self):
         return len(self.__exercises)
+        
+    """Get one of exercises"""
+    def getExercise(self, index):
+        return self.__exercises[index]
 
     """Load data from file"""
     def load(self, filename):
@@ -146,6 +151,13 @@ class Model:
                     e.question = special_replace(line, p, POINTS)
                     e.question = e.question.replace(POINTS+".", POINTS)
                     e.answer = f
+                    
+                    if line.lower().startswith('if '):
+                        if pv in self.__defs:
+                            self.__defs[pv].append(line)
+                        else:
+                            self.__defs[pv] = [line]
+                    
                     if isMultiple:
                         if not e in res:
                             res.append(e)
@@ -210,3 +222,15 @@ class Model:
                 if withItSelf or pv!=vv:
                     res.append(forms[i])
         return res
+
+    """Get definition of a phrasal verb"""
+    def getDefinition(self, verb):
+        if verb in self.__defs:
+            s = []
+            i = 1
+            for line in self.__defs[verb]:
+                s.append("%i. %s" % (i, line))
+                i = i + 1
+            return "\n".join(s)
+        else:
+            return ""

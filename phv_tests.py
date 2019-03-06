@@ -111,6 +111,25 @@ class TestParse(unittest.TestCase):
         self.assertEqual(True, e1 in lst)
         self.assertEqual(False, e2 in lst)
         self.assertEqual(False, None in lst)
+        
+    def test_specialcase(self):
+        r = special_find("To give the work up.", "give up")
+        self.assertEqual(len(r), 2)
+        self.assertEqual(r[0], (3,4))
+        self.assertEqual(r[1], (17, 2))
+
+        r = special_find("If you give out a number of things, you distribute them among a group of people.", "give up")
+        self.assertEqual(r, None)
+        
+    def test_definition(self):
+        d = self.model.getDefinition('give out')
+        dl = d.split("\n")
+        self.assertEqual(len(dl), 4)
+        self.assertEqual(dl[0][:25], '1. If you give out a numb')
+        self.assertEqual(dl[1][:25], '2. If you give out inform')
+        self.assertEqual(dl[2][:25], '3. If a piece of equipmen')
+        self.assertEqual(dl[3][:25], '4. If you give out someth')
+        
 
 if __name__ == '__main__':
     unittest.main()

@@ -172,6 +172,6 @@ if __name__ == '__main__':
 
     p = Parser('verbs/find_out')
     p.perform()
-    #assert len(p.sentences)==14
+    assert len(p.sentences)==8
 
     print(p)
