@@ -1,6 +1,9 @@
 
-var correct_answer = ''
+var correct_answer = ''  ///< the correct answer
 
+/**
+  Load JSON from server
+*/
 function loadJSON() {
     var request = new XMLHttpRequest();
     request.open('GET', 'new_ex', true);
@@ -18,6 +21,9 @@ function loadJSON() {
     }
 }
 
+/**
+  Get indices of placeholders to wrap
+*/
 function indices(txt) {
     //console.log(txt)
     var res = []
@@ -35,6 +41,9 @@ function indices(txt) {
     return res
 }
 
+/**
+  Parse JSON data
+*/
 function parseData(data) {
     //alert(data)
     var obj = JSON.parse(data)
@@ -68,7 +77,10 @@ function parseData(data) {
     });
 }
 
-function verb_chosen(value) {
+/**
+  Insert answer instead of placeholder when the variant is chosen
+*/
+function onVerbChosen(value) {
     a1 = document.getElementById("answer1")
     a2 = document.getElementById("answer2")
     if (a2=== null) {
@@ -84,6 +96,9 @@ function verb_chosen(value) {
     }
 }
 
+/**
+  Verify the user's answer
+*/
 function verify() {
     var a1 = document.getElementById("answer1")
     var a2 = document.getElementById("answer2")
@@ -99,7 +114,10 @@ function verify() {
         img.src = "fail.png"
 }
 
-function newex() {
+/**
+  Request new exercise
+*/
+function newExercise() {
     var img = document.getElementById("state")
     img.src = ""
     loadJSON("")

@@ -10,11 +10,15 @@ FORMS = {
 	"break": ["breaks", "breaking", "broke", "broken"],
     "call":  ["calls", "calling", "called", "called"],
 	"calm":  ["calms", "calming", "calmed", "calmed"],
+    "carry": ["carries", "carrying", "carried", "carried"],
     "cheer": ["cheers", "cheering", "cheered", "cheered"],
 	"come":  ["comes", "coming", "came", "come"],
-	"give":  ["gives", "giving", "gave", "given"],
+    "find":  ["finds", "finding", "found", "found"],
+    "give":  ["gives", "giving", "gave", "given"],
+	"go":    ["goes", "going", "went", "gone"],
 	"take":  ["takes", "taking", "took", "taken"],
-	"write":  ["writes", "writing", "wrote", "written"],
+    "try":   ["tries", "trying", "tried", "tried"],
+	"write": ["writes", "writing", "wrote", "written"],
 }
 
 
@@ -149,5 +153,25 @@ if __name__ == '__main__':
     p = Parser('verbs/cheer_up')
     p.perform()
     assert len(p.sentences)==5
+
+    p = Parser('verbs/go_out')
+    p.perform()
+    assert len(p.sentences)==23
+
+    p = Parser('verbs/go_ahead')
+    p.perform()
+    assert len(p.sentences)==4
+
+    p = Parser('verbs/try_on')
+    p.perform()
+    assert len(p.sentences)==4
+
+    p = Parser('verbs/carry_on')
+    p.perform()
+    assert len(p.sentences)==14
+
+    p = Parser('verbs/find_out')
+    p.perform()
+    #assert len(p.sentences)==14
 
     print(p)
