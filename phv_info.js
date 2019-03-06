@@ -60,6 +60,15 @@ function showVerb(verb, data) {
 }
 
 /**
+  Clear verb definition
+*/
+function clearDefinition() {
+    var defineul = document.getElementById("define");
+    while (defineul.firstChild)
+        defineul.removeChild(defineul.firstChild)
+}
+
+/**
   Show verb definition
 */
 function showDefinition(data) {
@@ -69,8 +78,6 @@ function showDefinition(data) {
     //console.log(defs)
 
     var defineul = document.getElementById("define");
-    while(defineul.firstChild)
-        defineul.removeChild(defineul.firstChild)
 
     var i;
     for (i = 0; i<defs.length; i++)
@@ -148,11 +155,15 @@ function locate(n, shift) {
 /**
   Animate the elements
 */
-function animate(draw, duration) {
+function animate(draw, duration, func_after_finish) {
     var start = performance.now();
     requestAnimationFrame(function animate(time) {
         var timePassed = time - start;
-        if (timePassed > duration) timePassed = duration;
+        if (timePassed > duration) {
+            timePassed = duration;
+            //console.log("finish")
+            func_after_finish()
+        }
         draw(timePassed);
         if (timePassed < duration) {
             requestAnimationFrame(animate);
@@ -179,11 +190,12 @@ function onSelect(index, n, part) {
 
     //locate(n, new_shift)
     var step = delta / time
+    clearDefinition()
     animate(function (timePassed) {
         var shift = start_shift + step * timePassed
         //console.log(shift)
         locate(n, shift)
-    }, time);
-
-    loadDefinition(parts[index])
+    }, time, function () {
+        loadDefinition(parts[index])
+    });
 }
