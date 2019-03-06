@@ -1,14 +1,89 @@
 
 var current_shift = 0
 var current_delta = 0
+var current_verb = ""
+var parts = []
 
-function loadJSON() {
-    var verb = "GET"
-    var parts = ["at", "away", "on", "up", "off"]
-    createPrs(verb, parts)
+/**
+  Load verb information
+*/
+function loadVerb(verb) {
+    var request = new XMLHttpRequest();
+    request.open('GET', 'verb='+verb, true);
+    request.send();
+    request.onreadystatechange = function () {
+        //alert(request.readyState)
+        //alert(request.status)
+        if (request.readyState === 4 && request.status === 200) {
+            var type = request.getResponseHeader('Content-type');
+            //alert(type)
+            if (type.indexOf("json") !== 1) {
+                showVerb(verb, request.responseText);
+            }
+        }
+    }
+}
+
+/**
+  Load verb definition
+*/
+function loadDefinition(part) {
+    var request = new XMLHttpRequest();
+    //console.log(current_verb, part)
+    request.open('GET', 'def=' + current_verb + " " + part, true);
+    request.send();
+    request.onreadystatechange = function () {
+        //alert(request.readyState)
+        //alert(request.status)
+        if (request.readyState === 4 && request.status === 200) {
+            var type = request.getResponseHeader('Content-type');
+            //alert(type)
+            if (type.indexOf("json") !== 1) {
+                showDefinition(request.responseText);
+            }
+        }
+    }
+}
+
+/**
+  Show verb information
+*/
+function showVerb(verb, data) {
+
+    var obj = JSON.parse(data)
+    parts = obj.particles
+    //console.log(parts)
+
+    current_verb = verb
+    createPrs(verb.toUpperCase(), parts)
     locate(parts.length, 0)
 }
 
+/**
+  Show verb definition
+*/
+function showDefinition(data) {
+
+    var obj = JSON.parse(data)
+    var defs = obj.definition
+    //console.log(defs)
+
+    var defineul = document.getElementById("define");
+    while(defineul.firstChild)
+        defineul.removeChild(defineul.firstChild)
+
+    var i;
+    for (i = 0; i<defs.length; i++)
+    {
+        var item = document.createElement("li");
+        item.innerText = defs[i];
+        defineul.appendChild(item)
+    }
+}
+
+/**
+  Build circular element
+*/
 function circ(elem, x0, y0, r, bord, fsize) {
     elem.style.left = Math.round(x0 - r) + "px"
     elem.style.top = Math.round(y0 - r) + "px"
@@ -19,9 +94,17 @@ function circ(elem, x0, y0, r, bord, fsize) {
     elem.style.font = fsize + "pt Times"
 }
 
+/**
+  Create elements for verb with particles
+*/
 function createPrs(verb, parts) {
     var main = document.getElementById("main");
     main.innerText = verb
+
+    var partsdiv = document.getElementById("parts");
+    while (partsdiv.firstChild) {
+        partsdiv.removeChild(partsdiv.firstChild);
+    }
 
     var n = parts.length
     for (var i = 0; i < n; i++) {
@@ -32,17 +115,20 @@ function createPrs(verb, parts) {
         b.classList.add("part")
         b.innerText = parts[i]
         b.onclick = function () { onSelect(this.index, this.nbItems, this.innerText) }
-        document.body.appendChild(b)
+        partsdiv.appendChild(b)
     }
 }
 
+/**
+  Locate the elements for verb with particles
+*/
 function locate(n, shift) {
     var w = document.body.clientWidth
     var h = document.body.clientHeight
     var x0 = w / 4, y0 = 100 + w / 4, r1 = x0 * 3 / 4, r2 = x0 / 4
 
-    var define = document.getElementById("define");
-    define.style.top = (y0-50) + "px"
+    //var define = document.getElementById("define");
+    //define.style.top = (y0-50) + "px"
 
     var main = document.getElementById("main");
     circ(main, x0, y0, r1, 0, 60)
@@ -59,6 +145,9 @@ function locate(n, shift) {
     current_shift = shift
 }
 
+/**
+  Animate the elements
+*/
 function animate(draw, duration) {
     var start = performance.now();
     requestAnimationFrame(function animate(time) {
@@ -71,6 +160,9 @@ function animate(draw, duration) {
     });
 }
 
+/**
+  Treat the selection
+*/
 function onSelect(index, n, part) {
     //console.log(index + " " + part)
 
@@ -92,4 +184,6 @@ function onSelect(index, n, part) {
         //console.log(shift)
         locate(n, shift)
     }, time);
+
+    loadDefinition(parts[index])
 }

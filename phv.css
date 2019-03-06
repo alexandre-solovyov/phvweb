@@ -1,7 +1,11 @@
 
 :root {
+/*
   --main-bg-color: #9677ba;
   --main-bg-hover-color: #76579a;
+*/
+  --main-bg-color: #43A047;
+  --main-bg-hover-color: #2E7D32;
 }
 
 .title {
@@ -142,8 +146,10 @@
 ul {
     position: absolute;
     left: 50%;
+    top: 25%;
+    width: 40%;
     color: var(--main-bg-hover-color);
-    font-size: 20pt;
+    font-size: 16pt;
     text-align: justify;
     text-decoration: none;
 }
@@ -153,9 +159,9 @@ li {
 }
 
 li:nth-child(odd) {
-    background-color: white;
+    background-color: #EEEEEE;
 }
 
 li:nth-child(even) {
-    background-color: lightgray;
+    background-color: #CCCCCC;
 }

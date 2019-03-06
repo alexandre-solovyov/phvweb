@@ -14,6 +14,7 @@ FORMS = {
     "cheer": ["cheers", "cheering", "cheered", "cheered"],
 	"come":  ["comes", "coming", "came", "come"],
     "find":  ["finds", "finding", "found", "found"],
+    "get":   ["gets", "getting", "got", "got"],
     "give":  ["gives", "giving", "gave", "given"],
 	"go":    ["goes", "going", "went", "gone"],
 	"take":  ["takes", "taking", "took", "taken"],
@@ -173,5 +174,25 @@ if __name__ == '__main__':
     p = Parser('verbs/find_out')
     p.perform()
     assert len(p.sentences)==8
+
+    p = Parser('verbs/get_at')
+    p.perform()
+    assert len(p.sentences)==8
+
+    p = Parser('verbs/get_away')
+    p.perform()
+    assert len(p.sentences)==10
+
+    p = Parser('verbs/get_on')
+    p.perform()
+    assert len(p.sentences)==13
+
+    p = Parser('verbs/get_up')
+    p.perform()
+    assert len(p.sentences)==6
+
+    p = Parser('verbs/get_off')
+    p.perform()
+    assert len(p.sentences)==9
 
     print(p)

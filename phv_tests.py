@@ -87,18 +87,18 @@ class TestParse(unittest.TestCase):
         self.assertEqual(Model().load("some"), False)
 
     def test_parseFile(self):
-        self.assertEqual(self.model.nbExercises(), 45)
+        self.assertEqual(self.model.nbExercises(), 47)
 
     def test_randomEx(self):
-        e = self.model.randomEx()
+        e = self.model.getExercise(5)
         self.assertEqual(e.question, "After a fruitless morning sitting at his desk he had ...")
         self.assertEqual(e.answer, "given up")
-        self.assertEqual(self.model.findSimilar(e.answer), ['given out', 'taken up'])
+        self.assertEqual(self.model.findSimilar(e.answer), ['got up', 'given out', 'taken up'])
 
     def test_jsonify(self):
         e, vars = self.model.randomExVars(4)
         s = self.model.jsonify(e, vars)
-        self.assertEqual(s, '{"question": "After a fruitless morning sitting at his desk he had ...", "answer": "given up", "variants": ["given up", "taken up", "given out"]}')
+        self.assertEqual(s, '{"question": "Coastguards had ... all hope of finding the two divers alive.", "answer": "given up", "variants": ["given out", "taken up", "got up", "given up"]}')
 
     def test_equality(self):
         e1 = Exercise()
@@ -129,7 +129,20 @@ class TestParse(unittest.TestCase):
         self.assertEqual(dl[1][:25], '2. If you give out inform')
         self.assertEqual(dl[2][:25], '3. If a piece of equipmen')
         self.assertEqual(dl[3][:25], '4. If you give out someth')
+
+        d = self.model.getDefinition('get up')
+        dl = d.split("\n")
+        self.assertEqual(len(dl), 2)
+        self.assertEqual(dl[0][:25], '1. When you get up, you g')
+        self.assertEqual(dl[1][:25], '2. If you get yourself up')
         
+    def test_verbs(self):
+        verbs = self.model.getVerbs()
+        self.assertEqual(verbs, ['get', 'give', 'take'])
+        self.assertEqual(self.model.getParticles('give'), ['out', 'up'])
+        self.assertEqual(self.model.getParticles('take'), ['up'])
+        self.assertEqual(self.model.getParticles('go'), [])
+
 
 if __name__ == '__main__':
     unittest.main()

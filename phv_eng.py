@@ -1,6 +1,7 @@
 
 import random
 import json
+import copy
 
 NONE = 0
 VERBS = 1
@@ -72,6 +73,7 @@ class Model:
     """Constructor"""
     def __init__(self, r=None):
         self.__mode = NONE
+        self.__mainverbs = {}
         self.__verbs = {}
         self.__exercises = []
         self.__defs = {}
@@ -152,7 +154,7 @@ class Model:
                     e.question = e.question.replace(POINTS+".", POINTS)
                     e.answer = f
                     
-                    if line.lower().startswith('if '):
+                    if line.lower().startswith('if ') or line.lower().startswith('when '):
                         if pv in self.__defs:
                             self.__defs[pv].append(line)
                         else:
@@ -234,3 +236,28 @@ class Model:
             return "\n".join(s)
         else:
             return ""
+
+    """Get list of verbs"""
+    def getVerbs(self):
+        if len(self.__mainverbs)==0:
+            for v in self.__verbs:
+                parts = v.split(" ")
+                if parts[0] in self.__mainverbs:
+                    self.__mainverbs[parts[0]].append(parts[1])
+                else:
+                    self.__mainverbs[parts[0]] = [parts[1]]
+                    
+        return list(self.__mainverbs.keys())
+    
+    """Get particles of the given verb"""
+    def getParticles(self, verb):
+        if len(self.__mainverbs)==0:
+            self.getVerbs()
+            
+        if verb in self.__mainverbs:
+            lst = copy.deepcopy(self.__mainverbs[verb])
+            lst.sort()
+            return lst
+        else:
+            return []
+

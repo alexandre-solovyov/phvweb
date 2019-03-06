@@ -19,10 +19,19 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         
     def do_GET(self):
         print (self.path)
+
         if self.path=='/new_ex':
             return self.new_exercise()
+
         if self.path.startswith('/def='):
             return self.get_definition(self.path[5:])
+
+        if self.path.startswith('/verbs'):
+            return self.get_verbs()
+
+        if self.path.startswith('/verb='):
+            return self.get_particles(self.path[6:])
+
         return super().do_GET()
 
     def check_model(self):
@@ -60,7 +69,22 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         data["definition"] = dl
         json_string = json.dumps(data)
         self.send(json_string)
-        
+
+    def get_verbs(self):
+        self.check_model()
+        vv = self.model.getVerbs()
+        data = {}
+        data["verbs"] = vv
+        json_string = json.dumps(data)
+        self.send(json_string)
+
+    def get_particles(self, verb):
+        self.check_model()
+        pp = self.model.getParticles(verb)
+        data = {}
+        data["particles"] = pp
+        json_string = json.dumps(data)
+        self.send(json_string)     
 
 if __name__ == '__main__':
     """
