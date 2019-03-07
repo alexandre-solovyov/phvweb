@@ -91,14 +91,13 @@ function showDefinition(data) {
 /**
   Build circular element
 */
-function circ(elem, x0, y0, r, bord, fsize) {
+function circ(elem, x0, y0, r, bord) {
     elem.style.left = Math.round(x0 - r) + "px"
     elem.style.top = Math.round(y0 - r) + "px"
     elem.style.width = Math.round(2 * r) + "px"
     elem.style.height = Math.round(2 * r) + "px"
     elem.style.border = bord + "px solid white"
     elem.style.borderRadius = Math.round(r) + "px"
-    elem.style.font = fsize + "pt Times"
 }
 
 /**
@@ -130,15 +129,18 @@ function createPrs(verb, parts) {
   Locate the elements for verb with particles
 */
 function locate(n, shift) {
-    var w = document.body.clientWidth
-    var h = document.body.clientHeight
-    var x0 = w / 4, y0 = 100 + w / 4, r1 = x0 * 3 / 4, r2 = x0 / 4
+    var w = document.documentElement.clientWidth
+    var h = document.documentElement.clientHeight
+    var ww = Math.min(w/2, h-100)
+    var k = 0.5
+    //console.log(ww)
+    var x0 = ww*k, y0 = 100 + ww*k, r1 = x0 * 3 / 4, r2 = x0 / 4
 
     //var define = document.getElementById("define");
     //define.style.top = (y0-50) + "px"
 
     var main = document.getElementById("main");
-    circ(main, x0, y0, r1, 0, 60)
+    circ(main, x0, y0, r1, 0)
 
     var d = 2.0 * Math.PI / n
     current_delta = d
@@ -146,7 +148,7 @@ function locate(n, shift) {
     for (var i = 0; i < n; i++) {
         var b = document.getElementById("part" + (i + 1));
         var a = d * i + shift
-        circ(b, x0 + r1 * Math.cos(a), y0 + r1 * Math.sin(a), r2, 8, 20)
+        circ(b, x0 + r1 * Math.cos(a), y0 + r1 * Math.sin(a), r2, 8)
     }
 
     current_shift = shift

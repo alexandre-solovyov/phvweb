@@ -125,18 +125,22 @@
     position: absolute;
     color: white;
     background-color: var(--main-bg-color);
-    outline: none
+    outline: none;
+    font: 70pt Times;
 }
 
+/*
 .main:hover {
     background-color: var(--main-bg-hover-color);
 }
+*/
 
 .part {
     position: absolute;
     color: white;
     background-color: var(--main-bg-color);
-    outline: none
+    outline: none;
+    font: 32pt Times;
 }
 
 .part:hover {
