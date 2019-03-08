@@ -1,15 +1,18 @@
 
+var nbVerbs = 5
+var verbs = []
+var start = 0
 var current_shift = 0
 var current_delta = 0
 var current_verb = ""
 var parts = []
 
 /**
-  Load verb information
+  Load any JSON information from the server
 */
-function loadVerb(verb) {
+function loadJSON(command, func) {
     var request = new XMLHttpRequest();
-    request.open('GET', 'verb='+verb, true);
+    request.open('GET', command, true);
     request.send();
     request.onreadystatechange = function () {
         //alert(request.readyState)
@@ -18,31 +21,40 @@ function loadVerb(verb) {
             var type = request.getResponseHeader('Content-type');
             //alert(type)
             if (type.indexOf("json") !== 1) {
-                showVerb(verb, request.responseText);
+                func(request.responseText);
             }
         }
     }
 }
 
 /**
+  Load all verbs information
+*/
+function loadAllVerbs() {
+    loadJSON('verbs', showVerbs)
+}
+
+/**
+  Load verb information
+*/
+function loadVerb(verb) {
+    loadJSON('verb=' + verb, function(text) { showVerb(verb, text);})
+}
+
+/**
   Load verb definition
 */
 function loadDefinition(part) {
-    var request = new XMLHttpRequest();
-    //console.log(current_verb, part)
-    request.open('GET', 'def=' + current_verb + " " + part, true);
-    request.send();
-    request.onreadystatechange = function () {
-        //alert(request.readyState)
-        //alert(request.status)
-        if (request.readyState === 4 && request.status === 200) {
-            var type = request.getResponseHeader('Content-type');
-            //alert(type)
-            if (type.indexOf("json") !== 1) {
-                showDefinition(request.responseText);
-            }
-        }
-    }
+    loadJSON('def=' + current_verb + " " + part, showDefinition)
+}
+
+/**
+  Show all verbs information
+*/
+function showVerbs(data) {
+    var obj = JSON.parse(data)
+    verbs = obj.verbs
+    showAllVerbs()
 }
 
 /**
@@ -52,11 +64,16 @@ function showVerb(verb, data) {
 
     var obj = JSON.parse(data)
     parts = obj.particles
-    //console.log(parts)
+    //console.log(verb, parts)
 
+    // Load and show the verb meaning
     current_verb = verb
+    var current_shift = 0
+    var current_delta = 0
     createPrs(verb.toUpperCase(), parts)
     locate(parts.length, 0)
+
+    loadDefinition(parts[0])
 }
 
 /**
@@ -78,10 +95,11 @@ function showDefinition(data) {
     //console.log(defs)
 
     var defineul = document.getElementById("define");
+    while(defineul.firstChild)
+        defineul.removeChild(defineul.firstChild)
 
     var i;
-    for (i = 0; i<defs.length; i++)
-    {
+    for (i = 0; i < defs.length; i++) {
         var item = document.createElement("li");
         item.innerText = defs[i];
         defineul.appendChild(item)
@@ -131,10 +149,10 @@ function createPrs(verb, parts) {
 function locate(n, shift) {
     var w = document.documentElement.clientWidth
     var h = document.documentElement.clientHeight
-    var ww = Math.min(w/2, h-100)
+    var ww = Math.min(w / 2, h - 100)
     var k = 0.5
     //console.log(ww)
-    var x0 = ww*k, y0 = 100 + ww*k, r1 = x0 * 3 / 4, r2 = x0 / 4
+    var x0 = ww * k, y0 = 100 + ww * k, r1 = x0 * 3 / 4, r2 = x0 / 4
 
     //var define = document.getElementById("define");
     //define.style.top = (y0-50) + "px"
@@ -200,4 +218,78 @@ function onSelect(index, n, part) {
     }, time, function () {
         loadDefinition(parts[index])
     });
+}
+
+/**
+  Create buttons for verbs
+*/
+function createVerbsBtns(nb) {
+    var div = document.getElementById("verbs");
+    while (div.firstChild)
+        div.removeChild(div.firstChild)
+
+    for (i = 0; i < nb + 2; i++) {
+        b = document.createElement("button");
+        b.classList.add("verb")
+        if (i == 0) {
+            b.innerHTML = "&#9668;"
+            b.onclick = previous
+        }
+        else if (i == nb + 1) {
+            b.innerHTML = "&#9658;"
+            b.onclick = next
+        }
+        else {
+            b.innerHTML = ""
+            b.onclick = function () { selectVerb(this.innerHTML) }
+        }
+        div.appendChild(b)
+    }
+}
+
+/**
+  Show all verbs in the buttons
+*/
+function showAllVerbs() {
+    var div = document.getElementById("verbs");
+    for (i = 0; i < nbVerbs + 2; i++)
+        if (i > 0 && i < nbVerbs + 1)
+            div.children[i].innerHTML = verbs[start + i - 1]
+    //console.log(verbs)
+    selectVerb(verbs[start])    
+}
+
+/**
+  Choose previous verb
+*/
+function previous() {
+    start = start - 1
+    if (start < 0)
+        start = 0
+    showAllVerbs()
+}
+
+/**
+  Choose next verb
+*/
+function next() {
+    start = start + 1
+    if (start > verbs.length - nbVerbs)
+        start = verbs.length - nbVerbs
+    showAllVerbs()
+}
+
+/**
+  Treat the selection of one verb
+*/
+function selectVerb(verb) {
+    loadVerb(verb)
+}
+
+/**
+  Create all buttons for verbs
+*/
+function createVerbs() {
+    createVerbsBtns(nbVerbs)
+    loadAllVerbs()
 }

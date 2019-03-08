@@ -126,7 +126,7 @@
     color: white;
     background-color: var(--main-bg-color);
     outline: none;
-    font: 70pt Times;
+    font: 50pt Times;
 }
 
 /*
@@ -168,4 +168,22 @@ li:nth-child(odd) {
 
 li:nth-child(even) {
     background-color: #CCCCCC;
+}
+
+.verbs {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+}
+
+.verb {
+    background-color: var(--main-bg-color);
+    color: white;
+    padding: 10px;
+    margin: 2px;
+    width: 70px;
+    font-size: 16pt;
+    border: none; /*1px solid black;*/
+    border-radius: 15px;
+    outline: none;
 }
