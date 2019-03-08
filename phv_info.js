@@ -149,10 +149,14 @@ function createPrs(verb, parts) {
 function locate(n, shift) {
     var w = document.documentElement.clientWidth
     var h = document.documentElement.clientHeight
-    var ww = Math.min(w / 2, h - 100)
-    var k = 0.5
+    var wk = 0.7
+    var hk = 0.25
+    var mk = 0.1
+    var ww = Math.min(w, h - h*hk)
+
     //console.log(ww)
-    var x0 = ww * k, y0 = 100 + ww * k, r1 = x0 * 3 / 4, r2 = x0 / 4
+    var r1 = ww * (1-2*mk) / 2
+    var x0 = ww * mk + r1, y0 = ww * mk + h * hk + r1, r2 = r1 / 4
 
     //var define = document.getElementById("define");
     //define.style.top = (y0-50) + "px"

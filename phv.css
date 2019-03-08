@@ -12,45 +12,45 @@
   background-color: var(--main-bg-color);
   color: white;
   width: 100%;
-  height: 100px;
-  line-height: 100px;
+  height: 15vh;
+  line-height: 15vh;
   padding: 0px;
   margin: 0px;
 }
 
 .icon {
     position: relative;
-    left: 50px;
+    left: 5vw;
     color: white;
     border-style: solid;
     border-width: thin;  
     border-radius: 5px;
-    font-size: 20pt;
+    font-size: 5vh;
     padding: 5px;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 10vh;
 }
 
 .header {
     position: relative;
-    left: 70px;
-    height: 20px;
+    left: 7vw;
+    height: 10vh;
     color: white;
-    font-size: 32pt;
+    font-size: 8vh;
     text-align: left;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 15vh;
 }
 
 .info {
     position: absolute;
-    right: 70px;
-    height: 20px;
+    right: 7vw;
+    height: 15vh;
     color: white;
-    font-size: 24pt;
+    font-size: 8vh;
     text-align: right;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 15vh;
     text-decoration: none;
 }
 
@@ -59,7 +59,7 @@
     left: 10%;
     width: 80%;
     color: black;
-    font-size: 24pt;
+    font-size: 8vh;
     text-align: justify;
 }
 
@@ -67,16 +67,16 @@
     position: relative;
     left: 15%;
     width: 40%;
-    border-radius: 20px;
+    border-radius: 4vh;
     border-style: solid;
     border-width: thick;
     color: var(--main-bg-color);
     border-color: var(--main-bg-color);
     background-color: white;
-    font-size: 20pt;
+    font-size: 8vh;
     text-align-last: center;
     text-align: center;
-    line-height: 100px;
+    line-height: 15vh;
     outline: none;
 }
 
@@ -88,7 +88,7 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 30pt;
+    font-size: 8vh;
     margin: 4px 2px;
     border-radius: 20px;
     border-style: solid;
@@ -104,7 +104,7 @@
 }
 
 .var {
-    padding: 30px;
+    padding: 8vh;
     text-align: center;
     text-align-last: center;
 }
@@ -118,7 +118,7 @@
     right: 5%;
     bottom: 5%;
     width: 25%;
-    height: width
+    height: width;
 }
 
 .main {
@@ -126,7 +126,7 @@
     color: white;
     background-color: var(--main-bg-color);
     outline: none;
-    font: 50pt Times;
+    font: 12vh Times;
 }
 
 /*
@@ -140,7 +140,7 @@
     color: white;
     background-color: var(--main-bg-color);
     outline: none;
-    font: 32pt Times;
+    font: 5vh Times;
 }
 
 .part:hover {
@@ -153,13 +153,13 @@ ul {
     top: 25%;
     width: 40%;
     color: var(--main-bg-hover-color);
-    font-size: 16pt;
+    font-size: 3vh;
     text-align: justify;
     text-decoration: none;
 }
 
 li { 
-    padding: 10px;
+    padding: 1vh;
 }
 
 li:nth-child(odd) {
@@ -172,18 +172,19 @@ li:nth-child(even) {
 
 .verbs {
     position: absolute;
-    right: 5%;
-    bottom: 5%;
+    right: 1%;
+    bottom: 1%;
 }
 
 .verb {
     background-color: var(--main-bg-color);
     color: white;
-    padding: 10px;
-    margin: 2px;
-    width: 70px;
-    font-size: 16pt;
+    padding: 0.5vh;
+    margin: 0.5vh;
+    width: 7vw;
+    height: 7vh;
+    font-size: 3vh;
     border: none; /*1px solid black;*/
-    border-radius: 15px;
+    border-radius: 2vh;
     outline: none;
 }
