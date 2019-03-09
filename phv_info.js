@@ -150,8 +150,8 @@ function locate(n, shift) {
     var w = document.documentElement.clientWidth
     var h = document.documentElement.clientHeight
     var wk = 0.7
-    var hk = 0.25
-    var mk = 0.1
+    var hk = 0.20
+    var mk = 0.15
     var ww = Math.min(w, h - h*hk)
 
     //console.log(ww)

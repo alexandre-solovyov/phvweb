@@ -140,7 +140,7 @@
     color: white;
     background-color: var(--main-bg-color);
     outline: none;
-    font: 5vh Times;
+    font: 4vh Times;
 }
 
 .part:hover {
@@ -187,4 +187,8 @@ li:nth-child(even) {
     border: none; /*1px solid black;*/
     border-radius: 2vh;
     outline: none;
+}
+
+.verb:hover {
+    background-color: var(--main-bg-hover-color);
 }
