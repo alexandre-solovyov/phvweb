@@ -152,10 +152,12 @@ ul {
     left: 50%;
     top: 25%;
     width: 40%;
+    height: 60%;
     color: var(--main-bg-hover-color);
-    font-size: 3vh;
+    font-size: 16pt;
     text-align: justify;
     text-decoration: none;
+    overflow: auto;
 }
 
 li { 
@@ -183,7 +185,7 @@ li:nth-child(even) {
     margin: 0.5vh;
     width: 7vw;
     height: 7vh;
-    font-size: 3vh;
+    font-size: 16pt;
     border: none; /*1px solid black;*/
     border-radius: 2vh;
     outline: none;
